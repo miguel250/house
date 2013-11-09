@@ -56,4 +56,21 @@ return array(
             ),
         ),
     ),
+    'session' => array(
+        'config' => array(
+            'class' => 'Zend\Session\Config\SessionConfig',
+            'options' => array(
+                'name' => 'house',
+            ),
+        ),
+        'storage' => 'Zend\Session\Storage\SessionArrayStorage',
+        'validators' => array(
+            'Zend\Session\Validator\RemoteAddr',
+            'Zend\Session\Validator\HttpUserAgent',
+        ),
+    ),
+    'mongodb' => array(
+        'hostname'=> '127.0.0.1',
+        'database' =>'house'
+        )
 );
