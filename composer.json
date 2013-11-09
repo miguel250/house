@@ -1,0 +1,12 @@
+{
+    "name": "House",
+    "description": "Interactive House",
+    "license": "BSD-3-Clause",
+    "require": {
+        "php": ">=5.3.3",
+        "zendframework/zendframework": "2.2.*"
+    },
+     "config": {
+        "vendor-dir": "core/vendor"
+    }
+}

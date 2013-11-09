@@ -1,13 +1,23 @@
-#### Installing
+#### Development Instructions
+    - Download [virtualbox](https://www.virtualbox.org/wiki/Downloads)
+    - Download [Vagrant](http://downloads.vagrantup.com/)
+    - Install [berkshelf](http://berkshelf.com/)
+    - Install [berkshelf vagrant plugin](http://berkshelf.com/#install_the_vagrant_berkshelf_plugin)
+    - run "vagrant up" in the root directory of project to create environment
+    - Open http://192.168.33.10/
 
+#### Deployment Instructions
+	- Install mongo pecl
+	- Run "/usr/bin/php bin/composer.phar self-update" and "/usr/bin/php bin/composer.phar install" in the root directory of project.
+	- Point web server root configuration to "project-path/public"
 #### Specs
 ##### Front End
 - [ ] Create World
-- [ ]  Add 3D House
-- [ ]  Add 3D movable items
+- [ ] Add 3D House
+- [ ] Add 3D movable items
 - [ ] Add 3D characters
-- [ ]  Send item location to backend
-- [ ]  Send user location to backend
+- [ ] Send item location to backend
+- [ ] Send user location to backend
 
 
 ##### Core API
