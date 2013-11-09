@@ -82,9 +82,9 @@ class Module
                             $sessionStorage = new $class();
                         }
 
-                        $mongo = new Mongo("mongodb://{$config['mongodb']['hostname']}");
+                        $mongo = new Mongo("mongodb://{$config['doctrine']['connection']['odm_default']['server']}");
                         $options = new MongoDBOptions(array(
-                            'database'  => $config['mongodb']['database'],
+                            'database'  => $config['doctrine']['connection']['odm_default']['dbname'],
                             'collection' => 'sessions',
                         ));
 

@@ -69,8 +69,33 @@ return array(
             'Zend\Session\Validator\HttpUserAgent',
         ),
     ),
-    'mongodb' => array(
-        'hostname'=> '127.0.0.1',
-        'database' =>'house'
+    'doctrine' => array(
+        'connection' => array(
+            'odm_default' => array(
+                'server'           => 'localhost',
+                'dbname'           => 'house',
+            ),
+        ),
+        'configuration' => array(
+            'odm_default' => array(
+                'default_db' => 'house',
+                'retryConnect' => 123,
+                'retryQuery' => 456
+            )
+        ),
+        'driver' => array(
+            'odm_default' => array(
+                'drivers' => array(
+                    'Application\Document' => 'document'
+                    )
+                ),
+            'document' => array(
+                'class' => 'Doctrine\ODM\MongoDB\Mapping\Driver\AnnotationDriver',
+                'cache' => 'array',
+                'paths' => array(
+                    __DIR__ . '/src/Application/Document'
+                )
+            )
         )
+    )
 );
