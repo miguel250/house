@@ -21,9 +21,10 @@
 
 
 ##### Core API
-- [ ] Create user session and storage it in mongo
-- [ ] Keep track items locations in Mongo
-- [ ] Save user location
+- [x] Create user session and storage it in mongo
+- [x] Keep track items locations in Mongo
+- [x] Save user
+- [x] Save user location
 - [ ] Unit Tests
 
 
@@ -38,3 +39,4 @@
 - https://github.com/zendframework/ZendSkeletonApplication] (Zend 2 App skeleton)
 - https://github.com/doctrine/DoctrineMongoODMModule (Doctrine Zend Module for mongodb)
 - http://learningthreejs.com/blog/2012/06/05/3d-physics-with-three-js-and-physijs/
+- http://static.zend.com/topics/ZF2REST-20130404.pdf (RESTful ZF2 pdf from zf lead project manager)
