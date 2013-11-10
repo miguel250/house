@@ -6,6 +6,11 @@ return array(
                 'server'           => 'localhost',
                 'dbname'           => 'house_test',
             ),
-        )
+        ),
+        'configuration' => array(
+            'odm_default' => array(
+                'default_db' => 'house_test',
+            )
+        ),
     )
 );

@@ -23,12 +23,14 @@ class ItemController extends ApiController
         $dm = $this->getServiceLocator()->get('doctrine.documentmanager.odm_default');
         $items = $item = $dm->getRepository('Application\Document\Item')->findAll();
         if(!empty($items)){
+            $count = 0;
             foreach ($items as $key => $item) {
-                $data['item'][$key]["id"] = $item->getId();
-                $data['item'][$key]["name"] = $item->getName();
-                $data['item'][$key]['position_x'] = $item->getPositionX();
-                $data['item'][$key]['position_y'] = $item->getPositionY();
-                $data['item'][$key]['position_z'] = $item->getPositionZ();
+                $data[$count]["id"] = $item->getId();
+                $data[$count]["name"] = $item->getName();
+                $data[$count]['position_x'] = $item->getPositionX();
+                $data[$count]['position_y'] = $item->getPositionY();
+                $data[$count]['position_z'] = $item->getPositionZ();
+                $count++;
             }
         }elseif($json){
             $this->response->setStatusCode(404);
@@ -49,15 +51,15 @@ class ItemController extends ApiController
             $item->setPositionX($data['position_x']);
         }
         if(isset($data['position_y'])){
-            $item->setPositionX($data['position_y']);
+            $item->setPositionY($data['position_y']);
         }
         if(isset($data['position_z'])){
-            $item->setPositionX($data['position_z']);
+            $item->setPositionZ($data['position_z']);
         }
 
-        $data['item']['position_x'] = $item->getPositionX();
-        $data['item']['position_y'] = $item->getPositionY();
-        $data['item']['position_z'] = $item->getPositionZ();
+        $data['position_x'] = $item->getPositionX();
+        $data['position_y'] = $item->getPositionY();
+        $data['position_z'] = $item->getPositionZ();
 
         $dm->persist($item);
         $dm->flush();
@@ -74,11 +76,11 @@ class ItemController extends ApiController
         $item = $dm->getRepository('Application\Document\Item')->find($id);
 
         if(!empty($item)){
-            $data['item']["id"] = $item->getId();
-            $data['item']["name"] = $item->getName();
-            $data['item']['position_x'] = $item->getPositionX();
-            $data['item']['position_y'] = $item->getPositionY();
-            $data['item']['position_z'] = $item->getPositionZ();
+            $data["id"] = $item->getId();
+            $data["name"] = $item->getName();
+            $data['position_x'] = $item->getPositionX();
+            $data['position_y'] = $item->getPositionY();
+            $data['position_z'] = $item->getPositionZ();
         }elseif($json){
             $this->response->setStatusCode(404);
             $data['message'] = "Not Found";
