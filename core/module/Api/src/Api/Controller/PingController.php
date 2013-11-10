@@ -14,7 +14,7 @@ use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
 use Zend\Session\Container;
 
-class StatusController extends ApiController
+class PingController extends ApiController
 {
     public function getList()
     {

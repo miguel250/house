@@ -21,12 +21,12 @@ return array(
                     ),
                 ),
             ),
-            'status' => array(
+            'ping' => array(
                 'type'    => 'segment',
                 'options' => array(
-                    'route'    => '/api/status[/:id]',
+                    'route'    => '/api/ping[/:id]',
                     'defaults' => array(
-                        'controller' => 'Api\Controller\Status',
+                        'controller' => 'Api\Controller\Ping',
                     ),
                 ),
             ),
@@ -36,7 +36,7 @@ return array(
         'invokables' => array(
             'Api\Controller\User' => 'Api\Controller\UserController',
             'Api\Controller\Item' => 'Api\Controller\ItemController',
-             'Api\Controller\Status' => 'Api\Controller\StatusController',
+             'Api\Controller\Ping' => 'Api\Controller\PingController',
         ),
     ),
     'view_manager' => array(
