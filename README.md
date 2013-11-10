@@ -10,6 +10,11 @@
 	- Install mongo pecl
 	- Run "/usr/bin/php bin/composer.phar self-update" and "/usr/bin/php bin/composer.phar install" in the root directory of project.
 	- Point web server root configuration to "project-path/public"
+
+#### Run unit tests
+	- run "vagrant ssh" in the root directory of project after creating environment.
+	- run cd webapp && ./core/vendor/bin/phpunit
+
 #### Specs
 ##### Front End
 - [ ] Create World
@@ -25,7 +30,7 @@
 - [x] Keep track items locations in Mongo
 - [x] Save user
 - [x] Save user location
-- [ ] Unit Tests
+- [X] Unit Tests
 
 
 ##### Multiple Users
