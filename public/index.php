@@ -13,6 +13,12 @@ if (php_sapi_name() === 'cli-server' && is_file(__DIR__ . parse_url($_SERVER['RE
     return false;
 }
 
+
+if(in_array($_SERVER['SERVER_NAME'], array("192.168.33.10"))){
+	putenv("APP_ENV=developement");
+}
+
+
 // Setup autoloading
 require 'core/init_autoloader.php';
 

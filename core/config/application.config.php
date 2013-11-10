@@ -5,6 +5,8 @@
  *
  * @see https://github.com/zendframework/ZFTool
  */
+$env = getenv('APP_ENV') ?: 'production';
+
 return array(
     'modules' => array(
         'DoctrineModule',
@@ -17,6 +19,6 @@ return array(
             './core/module',
             './core/vendor'
             ),
-        'config_glob_paths' => array('config/autoload/{,*.}{global,local}.php')
+        'config_glob_paths' => array(sprintf('%s/config/autoload/{,*.}{global,%s,local}.php', dirname(__DIR__), $env))
         )
     );
