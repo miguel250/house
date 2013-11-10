@@ -49,8 +49,7 @@ apt_repository "nginx-php" do
   key "E5267A6C"
 end
 
-include_recipe "php::default"
-include_recipe "php-fpm::default"
+
 
 node.override['php-fpm']['error_log'] = "#{home_path}/logs/php-fpm.log"
 node.override['php-fpm']['pool']['www']['listen'] = "/var/run/php-fpm-www.sock"
@@ -60,6 +59,10 @@ node.override['php-fpm']['pool']['www']['group']   = "vagrant"
 node.override[:php][:directives] =  {
     'date.timezone' => 'America/New_York'
 }
+
+include_recipe "php::default"
+include_recipe "php-fpm::default"
+
 
 php_pear_channel 'pear.php.net' do
   action :update
@@ -72,12 +75,6 @@ end
 execute "mongo" do
     command 'pecl install mongo && echo "extension=mongo.so" | sudo tee -a /etc/php5/fpm/conf.d/mongo.ini && echo "extension=mongo.so" | sudo tee -a /etc/php5/cli/conf.d/mongo.ini'
     not_if { ::File.exists?("/etc/php5/fpm/conf.d/mongo.ini")}
-    action :run
-end
-
-execute "Timezone" do
-    command 'echo "date.timezone=America/New_York" | sudo tee -a /etc/php5/fpm/conf.d/timezone.ini && echo "date.timezone=America/New_York" | sudo tee -a /etc/php5/cli/conf.d/timezone.ini'
-    not_if { ::File.exists?("/etc/php5/fpm/conf.d/timezone.ini")}
     action :run
 end
 
