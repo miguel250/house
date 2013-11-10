@@ -19,6 +19,7 @@ class ItemController extends ApiController
 {
     public function getList()
     {
+        $data = array();
         $dm = $this->getServiceLocator()->get('doctrine.documentmanager.odm_default');
         $items = $item = $dm->getRepository('Application\Document\Item')->findAll();
         if(!empty($items)){
