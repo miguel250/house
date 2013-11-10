@@ -53,8 +53,10 @@ class Module
 
             $container = new Container('initialized');
             if (!isset($container->init)) {
-                 $session->regenerateId(true);
-                 $container->init = 1;
+                if(!headers_sent()){
+                    $session->regenerateId(true);
+                    $container->init = 1;
+                }
             }
         }
 
