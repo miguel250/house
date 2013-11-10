@@ -104,10 +104,16 @@ class ItemController extends ApiController
             $this->response->setStatusCode(404);
             $response = array();
             $response['message'] = "Not Found";
-            new JsonModel($response);
+            return new JsonModel($response);
         }
         unset($data_old['item']);
         unset($data_old['dm']);
+
+
+        if(isset($data['name'])){
+            $item->setName($data['name']);
+            $data_old['name'] = $data['name'];
+        }
 
         if(isset($data['position_x'])){
             $item->setPositionX($data['position_x']);
@@ -123,7 +129,7 @@ class ItemController extends ApiController
             $item->setPositionZ($data['position_z']);
             $data_old['position_z'] = $data['position_z'];
         }
-
+        $data["id"] = $item->getId();
         $dm->flush();
         return new JsonModel($data_old);
     }

@@ -59,7 +59,7 @@ class User {
         return $this->id;
     }
 
-    public function getUsename() 
+    public function getUsername() 
     {
         return $this->username;
     }

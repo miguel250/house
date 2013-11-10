@@ -64,7 +64,7 @@ class Item {
 
     public function setName($name) 
     {
-        $this->name = (string) $name;
+        $this->name = (string)$name;
     }
 
     public function setPositionX($postionX)

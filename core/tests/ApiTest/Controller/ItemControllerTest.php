@@ -116,6 +116,42 @@ class ItemControllerTest extends AbstractHttpControllerTestCase
         $this->assertEquals($response['position_z'], $item->getPositionZ());
    }
 
+
+   public function testpatch(){
+       $postData = array(
+           'name' => 'testing',
+           'position_x' => 1,
+           'position_y' => 2,
+           'position_z' => 3,
+           );
+       $this->dispatch('/api/item', "POST", $postData);
+       $response_post = json_decode($this->getResponse()->getContent(), true);
+
+       $patchData = array(
+           'name' => 'testCreate',
+           'position_x' => 6,
+           'position_y' => 12,
+           'position_z' => 18,
+           );
+
+       $data = http_build_query($patchData);
+       $this->getRequest()->setMethod('PATCH');
+       $this->getRequest()->setContent($data);
+       $this->dispatch('/api/item/'.$response_post['id']);
+       $this->assertResponseStatusCode(200);
+
+       $response = json_decode($this->getResponse()->getContent(), true);
+       $item2 = $this->dm->getRepository('Application\Document\Item')->find($response_post['id']);
+       
+       $this->assertEquals($response_post['id'], $item2->getId());
+       $this->assertNotEquals($response_post['name'], $item2->getName());
+       $this->assertNotEquals($response_post['position_x'], $item2->getPositionX());
+       $this->assertNotEquals($response_post['position_y'], $item2->getPositionY());
+       $this->assertNotEquals($response_post['position_z'], $item2->getPositionZ());
+
+
+   }
+
     public function tearDown(){
         $this->dm->getConnection()->dropDatabase($this->config['doctrine']['connection']['odm_default']['dbname']);
         parent::tearDown();

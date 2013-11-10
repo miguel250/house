@@ -51,7 +51,7 @@ class UserController extends ApiController
         
         if(!empty($user)){
             $data['id'] = $user->getId();
-            $data['username'] = $user->getUsename();
+            $data['username'] = $user->getUsername();
             $data['is_online'] = $user->getIsOnline();
             $data['last_updated'] = $user->getLastUpdated()->getTimestamp();
             $data['position_x'] = $user->getPositionX();
@@ -90,7 +90,7 @@ class UserController extends ApiController
             $this->response->setStatusCode(404);
             $response = array();
             $response['message'] = "Not Found";
-            new JsonModel($response);
+            return new JsonModel($response);
         }
         
         unset($data_old['user']);
@@ -119,12 +119,11 @@ class UserController extends ApiController
         if(isset($data['item']) && $data['item'] == "null"){
             $user->setItem(null);
             unset($data_old['item']);
-        }elseif($data['item']['id']) {
+        }elseif(isset($data['item']['id'])) {
             $item_id = $data['item']['id'];
             $item = $dm->getRepository('Application\Document\Item')->find($item_id);
             
             if(!empty($item)){
-                var_dump($item);
                 $user->setItem($item);
                 $data_old['item']["id"] = $item->getId();
                 $data_old['item']["name"] = $item->getName();
