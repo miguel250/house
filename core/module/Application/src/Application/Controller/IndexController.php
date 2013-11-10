@@ -11,11 +11,19 @@ namespace Application\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use Zend\Session\Container;
 
 class IndexController extends AbstractActionController
 {
     public function indexAction()
     {
-        return new ViewModel();
+        $view = new ViewModel();
+        $container = new Container('house');
+        if($container->init){
+            $view->setTemplate('application/index/index');
+        }else{
+            $view->setTemplate('application/index/new');
+        }
+        return $view;
     }
 }

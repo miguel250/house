@@ -80,7 +80,10 @@ return array(
             'odm_default' => array(
                 'default_db' => 'house',
                 'retryConnect' => 123,
-                'retryQuery' => 456
+                'retryQuery' => 456,
+                'generate_hydrators' => true,
+                'proxy_dir'          => '/home/vagrant/webapp/core/data/DoctrineMongoODMModule/Proxy',
+                'hydrator_dir'       => '/home/vagrant/webapp/core/data/DoctrineMongoODMModule/Hydrator',
             )
         ),
         'driver' => array(
@@ -93,7 +96,7 @@ return array(
                 'class' => 'Doctrine\ODM\MongoDB\Mapping\Driver\AnnotationDriver',
                 'cache' => 'array',
                 'paths' => array(
-                    __DIR__ . '/src/Application/Document'
+                    __DIR__ . '/../src/Application/Document'
                 )
             )
         )
