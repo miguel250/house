@@ -6,6 +6,10 @@ include_recipe "mongodb::default"
 package "curl"
 
 
+user "vagrant" do
+  action :create
+end
+
 home_path = node['webapp']['path']
 
 
@@ -77,6 +81,12 @@ execute "mongo" do
     not_if { ::File.exists?("/etc/php5/fpm/conf.d/mongo.ini")}
     action :run
 end
+
+execute "Timezone" do
+   command 'echo "date.timezone=America/New_York" | sudo tee -a /etc/php5/fpm/conf.d/timezone.ini'
+   not_if { ::File.exists?("/etc/php5/fpm/conf.d/timezone.ini")}
+   action :run
+ end
 
 service "php5-fpm" do
   action :restart
