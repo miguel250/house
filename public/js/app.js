@@ -17,7 +17,7 @@ require(['tquery.loaders', 'tquery.skymap', 'tquery.grassground',  'tquery.shado
     var selectedCube = null;
 
     //Create scene
-    var world  = tQuery.createWorld().boilerplate({cameraControls: false}).start();
+    var world  = tQuery.createWorld().boilerplate({cameraControls: false, stats:false}).start();
 
 
     world.tCamera().lookAt( world.tScene().position );
