@@ -58,7 +58,20 @@ require(['tquery.loaders', 'tquery.skymap', 'tquery.grassground',  'tquery.shado
     //Add Player
     var player  = tQuery.createMinecraftPlayer()
     player.addTo(world);
-    player.object3D().position( 5.878401510630915,0.5,-1.0869647027003655);
+    player.object3D().position(user.position_x, user.position_y, user.position_z);
+    user.player = player;
+
+   var online_players = function(){
+        $.each(users_online, function(key, value){
+            var online_player = tQuery.createMinecraftPlayer()
+            online_player.addTo(world);
+            online_player.object3D().position(value.position_x, value.position_y, value.position_z);
+            users_online[key].player = online_player;
+
+        });
+   };
+
+   online_players();
 
     world.hook(function(){
         var keyboard    = tQuery.keyboard();
@@ -73,12 +86,20 @@ require(['tquery.loaders', 'tquery.skymap', 'tquery.grassground',  'tquery.shado
 
     //Create cubes
     var cTexture    = THREE.ImageUtils.loadTexture( "/js/vendor/tquery/plugins/assets/images/plywood.jpg" );
-    var cube  = tQuery.createCube(.4,.4,.4);
-    cube.addTo(world);
-    cube.position( 5.878401510630915,0.7,-1.0869647027003655);
-    cube.setLambertMaterial().map(cTexture).back()
-    cube.castShadow(true)
+    
+    var create_items = function(){
+        $.each(items_list, function(key, value){
+            var cube  = tQuery.createCube(.4,.4,.4);
+            cube.addTo(world);
+            cube.position( value.position_x, value.position_y, value.position_z);
+            cube.setLambertMaterial().map(cTexture).back()
+            cube.castShadow(true)
+            items_list[key].cube = cube;
 
+        });
+    };
+
+    create_items();
 
 
 
@@ -122,9 +143,10 @@ require(['tquery.loaders', 'tquery.skymap', 'tquery.grassground',  'tquery.shado
     window.onkeyup = function(e) {
         if(e.keyCode==32){
             if(selectedCube !== null){
-                var cube_z = selectedCube.position().z;
-                var cube_x = selectedCube.position().x;
-                selectedCube.position(cube_x, 0.7, cube_z);
+                var cube_z = selectedCube.cube.position().z;
+                var cube_x = selectedCube.cube.position().x;
+                selectedCube.cube.position(cube_x, 0.7, cube_z);
+                save_item_position();
                 selectedCube = null;
                 console.log("drop!");
             }
@@ -133,29 +155,94 @@ require(['tquery.loaders', 'tquery.skymap', 'tquery.grassground',  'tquery.shado
 
     window.onkeydown = function(e) {
         if(e.keyCode==32){
-            var distance = cube.position().distanceToSquared(player.object3D().position());
-            if(distance>=0.3 && distance <= 1.53){
-                var cube_z = cube.position().z;
-                var cube_x = cube.position().x;
-                cube.position(cube_x, 0.9, cube_z);
-                selectedCube = cube;
-                console.log("Picked!");
-            }
+            $.each(items_list, function(key, value){
+                var cube = value.cube;
+                var distance = cube.position().distanceToSquared(player.object3D().position());
+                if(distance>=0.3 && distance <= 1.53){
+                    var cube_z = cube.position().z;
+                    var cube_x = cube.position().x;
+                    cube.position(cube_x, 0.9, cube_z);
+                    selectedCube = value;
+                    console.log("Picked!");
+                    return false;
+                }
+                
+            });
         }
     }
 
     $(document.body).on('running', function(){
-        if(selectedCube !== null){
-            var cube_z = selectedCube.position().z;
-            var cube_x = selectedCube.position().x;
 
-            var play_x = player.object3D().position().x;
-            var play_z = player.object3D().position().z;
-            var play_y = player.object3D().position().y;
-            console.log(play_z);
-            selectedCube.position(play_x, 0.9, play_z+.4);
+        var player_x = player.object3D().position().x;
+        var player_z = player.object3D().position().z;
+        var player_y = player.object3D().position().y;
+
+        user.position_x = player_x;
+        user.position_z = player_z;
+        user.position_y = player_y;
+
+        if(selectedCube !== null){
+            var cube_z = selectedCube.cube.position().z;
+            var cube_x = selectedCube.cube.position().x;
+
+            selectedCube.position_x = player_x;
+            selectedCube.position_z = player_z+.4;
+
+            selectedCube.cube.position(player_x, 0.9, player_z+.4);
             
         }
     });
+
+    
+
+    (function update_user(){
+        var post_data = jQuery.extend(true, {}, user);
+
+        if(selectedCube !== null){
+            post_data.item = {'id': selectedCube.id}
+        }else{
+            post_data.item = "null";
+        }
+
+        delete post_data.player;
+
+        $.ajax({ 
+            url: "/api/user/"+user.id,
+            type : 'PATCH',
+            data : post_data,
+            success: function(data){
+                console.log("position saved!!");
+            }, 
+            dataType: "json", 
+            complete: update_user, 
+            timeout: 10000 
+        });
+    })();
+
+    var save_item_position = function(){
+        if(selectedCube !== null){
+            var post_data = jQuery.extend(true, {}, selectedCube);
+
+            delete post_data.cube;
+
+            $.ajax({ 
+                url: "/api/item/"+selectedCube.id,
+                type : 'PATCH',
+                data : post_data,
+                success: function(data){
+                    console.log("Item saved!!");
+                }, 
+                dataType: "json", 
+                complete: save_item_position,
+                timeout: 30000 
+            });
+        }
+    };
+
+    (function update_item(){
+        console.log("Checking items!!");
+        save_item_position();
+        setTimeout(update_item,10000);
+    })();
 
 });
