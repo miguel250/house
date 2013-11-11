@@ -21,8 +21,8 @@
 - [X] Add 3D House
 - [X] Add 3D movable items
 - [X] Add 3D characters
-- [ ] Send item location to backend
-- [ ] Send user location to backend
+- [x] Send item location to backend
+- [x] Send user location to backend
 
 
 ##### Core API
@@ -34,8 +34,8 @@
 
 
 ##### Multiple Users
-- [ ] Check For new users
-- [ ] Check is users is online
+- [X] Check For new users
+- [X] Check is users is online
 
 
 #### Helpful Links

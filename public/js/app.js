@@ -93,7 +93,7 @@ require(['tquery.loaders', 'tquery.skymap', 'tquery.grassground',  'tquery.shado
             cube.addTo(world);
             cube.position( value.position_x, value.position_y, value.position_z);
             cube.setLambertMaterial().map(cTexture).back()
-            cube.castShadow(true)
+            cube.castShadow(true);
             items_list[key].cube = cube;
 
         });
@@ -215,6 +215,63 @@ require(['tquery.loaders', 'tquery.skymap', 'tquery.grassground',  'tquery.shado
             }, 
             dataType: "json", 
             complete: update_user, 
+            timeout: 10000 
+        });
+    })();
+
+    (function update_data(){
+
+        $.ajax({ 
+            url: "/api/ping?disconnected=true",
+            type : 'GET',
+            cache:false,
+            success: function(data){
+                console.log("update users data");
+
+                $.each(data.items, function(key, value){
+                    if(items_list[key] !== undefined){
+                        items_list[key].position_z = value.position_z;
+                        items_list[key].position_x = value.position_x;
+                        items_list[key].position_y = value.position_y;
+
+                        items_list[key].cube.position(value.position_x, value.position_y, value.position_z);
+                    }else{
+                        if(items_list instanceof Array){
+                            items_list = {}
+                        }
+
+                        items_list[key] = value;
+                        var cube  = tQuery.createCube(.4,.4,.4);
+                        cube.addTo(world);
+                        cube.position( value.position_x, value.position_y, value.position_z);
+                        cube.setLambertMaterial().map(cTexture).back()
+                        cube.castShadow(true);
+                        items_list[key].cube = cube;
+                    }
+                });
+
+                $.each(data.users, function(key, value){
+                    if(users_online[key] !== undefined && users_online[key].player !== undefined){
+                        users_online[key].position_z = value.position_z;
+                        users_online[key].position_x = value.position_x;
+                        users_online[key].position_y = value.position_y;
+
+                        users_online[key].player.position(value.position_x, value.position_y, value.position_z);
+                    }else{
+                        if(users_online instanceof Array){
+                            users_online = {}
+                        }
+                       users_online[key] = value
+                       var online_player = tQuery.createMinecraftPlayer();
+                       online_player.addTo(world);
+                       online_player.object3D().position(value.position_x, value.position_y, value.position_z);
+                       users_online[key].player = online_player;
+                    }
+                });
+
+            }, 
+            dataType: "json", 
+            complete: update_data, 
             timeout: 10000 
         });
     })();
