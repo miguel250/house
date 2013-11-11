@@ -26,11 +26,21 @@ tQuery.registerStatic('MinecraftPlayer', function(opts){
 		var velocity	= character3D.position().clone().sub(previousPos);
 		if( velocity.length() ){
 			bodyAnims.start('run');
+			$(document.body).trigger('running');
 		}else{
 			bodyAnims.start('stand');
 	 	}
 		// update player.previousPos/player.prevRotation
 		previousPos.copy( character3D.position() )
+		
+		// follow player with camera
+		var camera = world.tCamera()
+		camera.position.copy(character3D.position());
+		var delta =  new THREE.Vector3(20,16,-20).normalize().multiplyScalar(3);
+		var deltaLookAt =  new THREE.Vector3(0,0.1,0);
+		camera.position.copy(character3D.position());
+        camera.position.add(delta);
+        camera.lookAt( character3D.position().clone().add(deltaLookAt) );
 	});
 	// unhook callback on destroy
 	this.addEventListener('destroy', function(){ world.unhook(callback)	});

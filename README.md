@@ -17,10 +17,10 @@
 
 #### Specs
 ##### Front End
-- [ ] Create World
-- [ ] Add 3D House
-- [ ] Add 3D movable items
-- [ ] Add 3D characters
+- [X] Create World
+- [X] Add 3D House
+- [X] Add 3D movable items
+- [X] Add 3D characters
 - [ ] Send item location to backend
 - [ ] Send user location to backend
 
