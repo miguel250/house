@@ -56,7 +56,7 @@ require(['tquery.loaders', 'tquery.skymap', 'tquery.grassground',  'tquery.shado
 
 
     //Add Player
-    var player  = tQuery.createMinecraftPlayer()
+    var player  = tQuery.createMinecraftPlayer({'true_player': true})
     player.addTo(world);
     player.object3D().position(user.position_x, user.position_y, user.position_z);
     user.player = player;
@@ -66,7 +66,7 @@ require(['tquery.loaders', 'tquery.skymap', 'tquery.grassground',  'tquery.shado
             var online_player = tQuery.createMinecraftPlayer()
             online_player.addTo(world);
             online_player.object3D().position(value.position_x, value.position_y, value.position_z);
-            users_online[key].player = online_player;
+            users_online[key].character = online_player;
 
         });
    };
@@ -230,6 +230,9 @@ require(['tquery.loaders', 'tquery.skymap', 'tquery.grassground',  'tquery.shado
 
                 $.each(data.items, function(key, value){
                     if(items_list[key] !== undefined){
+                        if(selectedCube !== null && selectedCube.id === key){
+                            return;
+                        }
                         items_list[key].position_z = value.position_z;
                         items_list[key].position_x = value.position_x;
                         items_list[key].position_y = value.position_y;
@@ -251,12 +254,11 @@ require(['tquery.loaders', 'tquery.skymap', 'tquery.grassground',  'tquery.shado
                 });
 
                 $.each(data.users, function(key, value){
-                    if(users_online[key] !== undefined && users_online[key].player !== undefined){
+                    if(users_online[key] !== undefined && users_online[key].character !== undefined){
                         users_online[key].position_z = value.position_z;
                         users_online[key].position_x = value.position_x;
                         users_online[key].position_y = value.position_y;
-
-                        users_online[key].player.position(value.position_x, value.position_y, value.position_z);
+                        users_online[key].character.object3D().position(value.position_x, value.position_y, value.position_z);
                     }else{
                         if(users_online instanceof Array){
                             users_online = {}
@@ -265,7 +267,13 @@ require(['tquery.loaders', 'tquery.skymap', 'tquery.grassground',  'tquery.shado
                        var online_player = tQuery.createMinecraftPlayer();
                        online_player.addTo(world);
                        online_player.object3D().position(value.position_x, value.position_y, value.position_z);
-                       users_online[key].player = online_player;
+                       users_online[key].character = online_player;
+                    }
+                });
+                $.each(data.disconnected, function(key, value){
+                    if(users_online[value] !== undefined && users_online[value].character !== undefined){
+                       users_online[value].character.removeFrom(world);
+                       delete users_online[value]
                     }
                 });
 

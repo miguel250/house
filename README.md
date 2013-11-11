@@ -4,7 +4,7 @@
     - Install [berkshelf](http://berkshelf.com/)
     - Install [berkshelf vagrant plugin](http://berkshelf.com/#install_the_vagrant_berkshelf_plugin)
     - run "vagrant up" in the root directory of project to create environment
-    - Open http://192.168.33.10/
+    - Open http://192.168.33.10/ using chrome or firefox
 
 #### Deployment Instructions
 	- Install mongo pecl
@@ -43,6 +43,11 @@
 - [X] Check For new users
 - [X] Check is users is online
 
+##### TODO
+- [ ] Replace long polling with socket.io
+- [ ] Do more research on physic engine to stop going through walls 
+- [ ] Allow different characters
+- [ ] Animate other characters moments
 
 #### Helpful Links
 - http://jeromeetienne.github.io/tquery/ (extends three.js with jquery and it has pretty cool minecraft models)

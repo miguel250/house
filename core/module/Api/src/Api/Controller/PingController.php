@@ -22,7 +22,7 @@ class PingController extends ApiController
 
        $dm = $this->getServiceLocator()->get('doctrine.documentmanager.odm_default');
        $users = $dm->getRepository('Application\Document\User')->findByisOnline(true);
-       $data = array('users'=> array(), 'items'=>array());
+       $data = array('users'=> array(), 'items'=>array(), 'disconnected'=> array());
        if(isset($params['disconnected']) && $params['disconnected']){
             foreach ($users as $key => $user) {
                 $now = new \DateTime("-5 seconds");
@@ -31,6 +31,7 @@ class PingController extends ApiController
                     $user->setIsOnline(false);
                     $user->setItem(null);
                     $dm->flush();
+                    $data['disconnected'][] = $user->getId();
                 }else{
                   $key = $user->getId();
                   $data['users'][$key]['id'] = $user->getId();
