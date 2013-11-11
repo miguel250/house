@@ -11,6 +11,12 @@
 	- Run "/usr/bin/php bin/composer.phar self-update" and "/usr/bin/php bin/composer.phar install" in the root directory of project.
 	- Point web server root configuration to "project-path/public"
 
+#### Deploying to DigitalOcean
+    - Install https://github.com/smdahlen/vagrant-digitalocean
+    - Install https://github.com/schisamo/vagrant-omnibus
+    - Export DigitalOcean client id and api key "export DIGITALOCEAN_ID={client_id}" and "export DIGITALOCEAN_key={api_key}"
+    - Run vagrant up --provider=digital_ocean
+
 #### Run unit tests
 	- run "vagrant ssh" in the root directory of project after creating environment.
 	- run cd webapp && ./core/vendor/bin/phpunit
