@@ -49,9 +49,9 @@ class User {
     public function __construct() {
         $this->setLastUpdated();
         $this->isOnline = true;
-        $this->postionX = 0;
-        $this->postionY = 0;
-        $this->postionZ = 0;
+        $this->postionX = 5.878401510630915;
+        $this->postionY = 0.5;
+        $this->postionZ = -1.0869647027003655;
     }
 
     public function getId() 

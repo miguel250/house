@@ -37,7 +37,7 @@ class UserController extends ApiController
 
         $container = new Container('house');
         $container->init = 1;
-        $container->user_id = $data['id'];
+        $container->userId = $data['id'];
 
         return new JsonModel($data);
     }

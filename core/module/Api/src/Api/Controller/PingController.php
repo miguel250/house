@@ -19,37 +19,45 @@ class PingController extends ApiController
     public function getList()
     {
        $params = $this->params()->fromQuery();
-       $now = new \DateTime("-5 seconds");
 
        $dm = $this->getServiceLocator()->get('doctrine.documentmanager.odm_default');
        $users = $dm->getRepository('Application\Document\User')->findByisOnline(true);
        $data = array();
        if(isset($params['disconnected']) && $params['disconnected']){
             foreach ($users as $key => $user) {
+                $now = new \DateTime("-5 seconds");
                 $time = $now > $user->getLastUpdated();
                 if($time){
                     $user->setIsOnline(false);
+                    $user->setItem(null);
                     $dm->flush();
                 }else{
-                    $data['id'] = $user->getId();
-                    $data['username'] = $user->getUsename();
-                    $data['is_online'] = $user->getIsOnline();
-                    $data['last_updated'] = $user->getLastUpdated()->getTimestamp();
-                    $data['position_x'] = $user->getPositionX();
-                    $data['position_y'] = $user->getPositionY();
-                    $data['position_z'] = $user->getPositionZ();
-                    $data['item'] = array();
+                  $key = $user->getId();
+                  $data[$key]['id'] = $user->getId();
+                  $data[$key]['username'] = $user->getUsername();
+                  $data[$key]['is_online'] = $user->getIsOnline();
+                  $data[$key]['last_updated'] = $user->getLastUpdated()->getTimestamp();
+                  $data[$key]['position_x'] = $user->getPositionX();
+                  $data[$key]['position_y'] = $user->getPositionY();
+                  $data[$key]['position_z'] = $user->getPositionZ();
+                  $data[$key]['item'] = array();
 
-                    $item = $user->getItem();
-                    if(!empty($item)){
-                        $data['item']["id"] = $item->getId();
-                        $data['item']["name"] = $item->getName();
-                        $data['item']['position_x'] = $item->getPositionX();
-                        $data['item']['position_y'] = $item->getPositionY();
-                        $data['item']['position_z'] = $item->getPositionZ();
-                    }
+                  $item = $user->getItem();
+                  if(!empty($item)){
+                      $data[$key]['item']["id"] = $item->getId();
+                      $data[$key]['item']["name"] = $item->getName();
+                      $data[$key]['item']['position_x'] = $item->getPositionX();
+                      $data[$key]['item']['position_y'] = $item->getPositionY();
+                      $data[$key]['item']['position_z'] = $item->getPositionZ();
+                  }
                 }
             }
+       }
+
+       if(!empty($data)){
+          $container = new Container('house');
+          $id = $container->userId;
+          unset($data[$id]);
        }
 
        return new JsonModel($data);
