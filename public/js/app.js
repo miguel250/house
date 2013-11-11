@@ -158,7 +158,7 @@ require(['tquery.loaders', 'tquery.skymap', 'tquery.grassground',  'tquery.shado
             $.each(items_list, function(key, value){
                 var cube = value.cube;
                 var distance = cube.position().distanceToSquared(player.object3D().position());
-                if(distance>=0.3 && distance <= 1.53){
+                if(distance>=0.1 && distance <= 1.53){
                     var cube_z = cube.position().z;
                     var cube_x = cube.position().x;
                     cube.position(cube_x, 0.9, cube_z);
