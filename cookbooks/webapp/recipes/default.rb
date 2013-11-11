@@ -85,6 +85,8 @@ end
 #install nginx and add webapp settings
 node.override[:nginx][:log_dir] = "#{home_path}/logs/nginx"
 node.override[:nginx][:user] = "vagrant"
+node.override[:nginx][:sendfile] = 'on'
+
 include_recipe "nginx"
 
 
