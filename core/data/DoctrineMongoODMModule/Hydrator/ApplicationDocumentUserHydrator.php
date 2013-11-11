@@ -77,27 +77,27 @@ class ApplicationDocumentUserHydrator implements HydratorInterface
         }
 
         /** @Field(type="float") */
-        if (isset($data['postionX'])) {
-            $value = $data['postionX'];
+        if (isset($data['positionX'])) {
+            $value = $data['positionX'];
             $return = (float) $value;
-            $this->class->reflFields['postionX']->setValue($document, $return);
-            $hydratedData['postionX'] = $return;
+            $this->class->reflFields['positionX']->setValue($document, $return);
+            $hydratedData['positionX'] = $return;
         }
 
         /** @Field(type="float") */
-        if (isset($data['postionY'])) {
-            $value = $data['postionY'];
+        if (isset($data['positionY'])) {
+            $value = $data['positionY'];
             $return = (float) $value;
-            $this->class->reflFields['postionY']->setValue($document, $return);
-            $hydratedData['postionY'] = $return;
+            $this->class->reflFields['positionY']->setValue($document, $return);
+            $hydratedData['positionY'] = $return;
         }
 
         /** @Field(type="float") */
-        if (isset($data['postionZ'])) {
-            $value = $data['postionZ'];
+        if (isset($data['positionZ'])) {
+            $value = $data['positionZ'];
             $return = (float) $value;
-            $this->class->reflFields['postionZ']->setValue($document, $return);
-            $hydratedData['postionZ'] = $return;
+            $this->class->reflFields['positionZ']->setValue($document, $return);
+            $hydratedData['positionZ'] = $return;
         }
         return $hydratedData;
     }

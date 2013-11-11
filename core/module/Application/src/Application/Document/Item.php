@@ -19,17 +19,17 @@ class Item {
     /**
     * @ODM\Field(type="float")
     */
-    protected $postionX;
+    protected $positionX;
 
     /**
     * @ODM\Field(type="float")
     */
-    protected $postionY;
+    protected $positionY;
 
     /**
     * @ODM\Field(type="float")
     */
-    protected $postionZ;
+    protected $positionZ;
 
     public function __construct() {
         $this->postionX = 0;
@@ -49,17 +49,17 @@ class Item {
 
     public function getPositionX() 
     {
-        return $this->postionX;
+        return $this->positionX;
     }
 
     public function getPositionY() 
     {
-        return $this->postionY;
+        return $this->positionY;
     }
 
     public function getPositionZ() 
     {
-        return $this->postionZ;
+        return $this->positionZ;
     }
 
     public function setName($name) 
@@ -67,18 +67,18 @@ class Item {
         $this->name = (string)$name;
     }
 
-    public function setPositionX($postionX)
+    public function setPositionX($positionX)
     {
-        $this->postionX = (float)$postionX;
+        $this->positionX = (float)$positionX;
     }
 
-    public function setPositionY($postionY)
+    public function setPositionY($positionY)
     {
-        $this->postionY = (float)$postionY;
+        $this->positionY = (float)$positionY;
     }
 
-    public function setPositionZ($postionZ)
+    public function setPositionZ($positionZ)
     {
-        $this->postionZ = (float)$postionZ;
+        $this->positionZ = (float)$positionZ;
     }
 }

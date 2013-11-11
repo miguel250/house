@@ -19,24 +19,24 @@ class IndexController extends AbstractActionController
 {
     public function indexAction()
     {
-    	$data = array();
+        $data = array();
         $container = new Container('house');
         $dm = $this->getServiceLocator()->get('doctrine.documentmanager.odm_default');
         
         if($container->init !== 1){
-        	$user = new User();
+            $user = new User();
 
-        	$dm->persist($user);
-        	$dm->flush();
+            $dm->persist($user);
+            $dm->flush();
 
-        	$container->init = 1;
-        	$container->userId = $user->getId();
-        	$data['items'] =  array();
+            $container->init = 1;
+            $container->userId = $user->getId();
+            $data['items'] =  array();
         }else{
-        	$user = $dm->getRepository('Application\Document\User')->find($container->userId);
-        	$user->setLastUpdated();
-        	$user->setIsOnline(true);
-        	$dm->flush();
+            $user = $dm->getRepository('Application\Document\User')->find($container->userId);
+            $user->setLastUpdated();
+            $user->setIsOnline(true);
+            $dm->flush();
         }
 
         $data['id'] = $user->getId();
@@ -55,7 +55,7 @@ class IndexController extends AbstractActionController
         if(count($items_obj)!= 0){
 
             foreach ($items_obj as $key => $item) {
-            	$key = $item->getId();
+                $key = $item->getId();
                 $items[$key]["id"] = $item->getId();
                 $items[$key]["name"] = $item->getName();
                 $items[$key]['position_x'] = $item->getPositionX();
@@ -63,30 +63,49 @@ class IndexController extends AbstractActionController
                 $items[$key]['position_z'] = $item->getPositionZ();
             }
         }else{
-        	$position = 0.2;
-        	for ($create_count = 4; $create_count > 0; $create_count--) { 
-        		$item = new Item();
-        		$item->setPositionX(5.87840151063091+$position);
-        		$item->setPositionX(0.7);
-        		$item->getPositionZ(-1.0869647027003655);
-        		$position += 0.1;
+            $cubes = array(
+                array(
+                    'position_x' => 8.50175427004553,
+                    'position_y' => 0.7,
+                    'position_z' => 0.26618828149910534
+                    ),
+                array(
+                    'position_x' => 7.247045240644731,
+                    'position_y' => 0.7,
+                    'position_z' => 0.11808292621463246
+                    ),
+                array(
+                    'position_x' => 8.810607328331137,
+                    'position_y' => 0.7,
+                    'position_z' => -1.464555975408794
+                    ),
+                array(
+                    'position_x' => 5.8784015106309,
+                    'position_y' => 0.7,
+                    'position_z' => -1.0869647027004
+                    ),
+                );
+
+            foreach ($cubes as $key => $value) {
+                $item = new Item();
+                $item->setPositionX($value["position_x"]);
+                $item->setPositionY($value["position_y"]);
+                $item->setPositionZ($value["position_z"]);
                 $dm->persist($item);
                 $dm->flush();
                 $key = $item->getId();
-                $item[$key]['id' ] = $key;
+                $items[$key]['id' ] = $key;
                 $items[$key]["name"] = $item->getName();
                 $items[$key]['position_x'] = $item->getPositionX();
                 $items[$key]['position_y'] = $item->getPositionY();
                 $items[$key]['position_z'] = $item->getPositionZ();
-                
-                
-        	}
+            }
         }
 
         $users = $dm->getRepository('Application\Document\User')->findByisOnline(true);
         
         foreach ($users as $key => $user) {
-        	$now = new \DateTime("-5 seconds");
+            $now = new \DateTime("-5 seconds");
             $time = $now > $user->getLastUpdated();
             if($time){
                 $user->setIsOnline(false);
@@ -115,7 +134,7 @@ class IndexController extends AbstractActionController
         }
 
         if($onlineUsers){
-        	unset($onlineUsers[$data['id']]);
+            unset($onlineUsers[$data['id']]);
         }
 
         $info = array('userData'=>$data, 'items'=> $items, 'onlineUsers'=> $onlineUsers);

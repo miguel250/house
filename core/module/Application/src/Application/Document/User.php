@@ -34,24 +34,24 @@ class User {
     /**
     * @ODM\Field(type="float")
     */
-    protected $postionX;
+    protected $positionX;
 
     /**
     * @ODM\Field(type="float")
     */
-    protected $postionY;
+    protected $positionY;
 
     /**
     * @ODM\Field(type="float")
     */
-    protected $postionZ;
+    protected $positionZ;
 
     public function __construct() {
         $this->setLastUpdated();
         $this->isOnline = true;
-        $this->postionX = 5.878401510630915;
-        $this->postionY = 0.5;
-        $this->postionZ = -1.0869647027003655;
+        $this->positionX = 5.878401510630915;
+        $this->positionY = 0.5;
+        $this->positionZ = -1.0869647027003655;
     }
 
     public function getId() 
@@ -79,17 +79,17 @@ class User {
 
     public function getPositionX() 
     {
-        return $this->postionX;
+        return $this->positionX;
     }
 
     public function getPositionY() 
     {
-        return $this->postionY;
+        return $this->positionY;
     }
 
     public function getPositionZ() 
     {
-        return $this->postionZ;
+        return $this->positionZ;
     }
 
     public function setUsername($username) 
@@ -110,18 +110,18 @@ class User {
         $this->lastUpdated = new \DateTime();
     }
 
-    public function setPositionX($postionX)
+    public function setPositionX($positionX)
     {
-        $this->postionX = (float)$postionX;
+        $this->positionX = (float)$positionX;
     }
 
-    public function setPositionY($postionY)
+    public function setPositionY($positionY)
     {
-        $this->postionY = (float)$postionY;
+        $this->positionY = (float)$positionY;
     }
 
-    public function setPositionZ($postionZ)
+    public function setPositionZ($positionZ)
     {
-        $this->postionZ = (float)$postionZ;
+        $this->positionZ = (float)$positionZ;
     }
 }
